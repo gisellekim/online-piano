@@ -2,11 +2,13 @@ import { OctaveIndex, PitchIndex } from "./note"
 
 export type Key = string
 export type Keys = Key[]
-export const TOP_ROW: Keys = Array.from("q2w3e4r5t6y7u")
-export const BOTTOM_ROW: Keys = Array.from("zsxdcfvgbhnjm")
-export const CHANGE_ROW_AT: OctaveIndex = 5
 
-export function selectKey(octave: OctaveIndex, index: PitchIndex): Key {
-  const keysRow = octave < CHANGE_ROW_AT ? TOP_ROW : BOTTOM_ROW
-  return keysRow[index]
+export const FIRST_OCTAVE: Keys = Array.from("zsxdcvgbhnjm")
+export const SESCOND_OCTAVE: Keys = Array.from("r5t6yu8i9o0p")
+export const CHANGE_OCTAVE_AT: OctaveIndex = 5 // Piano octave sesction
+
+export function selectKey(octaveIndex: OctaveIndex, index: PitchIndex): Key {
+  const octaveRow =
+    octaveIndex < CHANGE_OCTAVE_AT ? FIRST_OCTAVE : SESCOND_OCTAVE
+  return octaveRow[index]
 }
