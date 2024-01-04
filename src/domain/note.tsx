@@ -18,13 +18,9 @@ export type Note = {
 
 const C1_MIDI_NUMBER = 24
 
-const C4_MIDI_NUMBER = 60
+export const START_OCTAVE: OctaveIndex = 4
 
-const B5_MIDI_NUMBER = 83
-
-export const LOWER_NOTE = C4_MIDI_NUMBER
-
-export const HIGHER_NOTE = B5_MIDI_NUMBER
+const NUMOCTAVES = 2
 
 export const SEMITONES_IN_OCTAVE = 12
 
@@ -57,16 +53,9 @@ export function fromMidi(midi: MidiValue): Note {
   return { octave, pitch, index, type, midi }
 }
 
-type NoteGeneratorSettings = {
-  fromNote?: MidiValue
-  toNote?: MidiValue
-}
-
-export function generateNotes({
-  fromNote = LOWER_NOTE,
-  toNote = HIGHER_NOTE,
-}: NoteGeneratorSettings = {}): Note[] {
-  return Array(toNote - fromNote + 1)
+export function generateNotes(): Note[] {
+  const fromNote = (START_OCTAVE - 1) * SEMITONES_IN_OCTAVE + C1_MIDI_NUMBER
+  return Array(SEMITONES_IN_OCTAVE * NUMOCTAVES)
     .fill(0)
     .map((_, index: number) => fromMidi(fromNote + index))
 }
