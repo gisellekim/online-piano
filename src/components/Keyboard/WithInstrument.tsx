@@ -1,17 +1,23 @@
 import { useEffect } from "react"
-import { Keyboard } from "../Keyboard"
+import { SoundfontProvider, useSoundfont } from "../../adapters/Soundfont"
 import { useAudioContext } from "../AudioContext"
-import { useSoundfont } from "../../adapters/Soundfont"
 import { useInstrument } from "../../state/Instrument"
+import { Keyboard } from "../Keyboard"
 
 export const KeyboardWithInstrument = () => {
   const AudioContext = useAudioContext()!
   const { instrument } = useInstrument()
-  const { loading, load, play, stop, current } = useSoundfont({ AudioContext })
+  const { loading, load, current } = useSoundfont({ AudioContext })
 
   useEffect(() => {
     if (!loading && instrument !== current) load(instrument)
   }, [load, loading, current, instrument])
 
-  return <Keyboard loading={loading} play={play} stop={stop} />
+  return (
+    <SoundfontProvider
+      AudioContext={AudioContext}
+      instrument={instrument}
+      render={(props) => <Keyboard {...props} />}
+    />
+  )
 }
