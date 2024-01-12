@@ -1,4 +1,4 @@
-import { Component, ComponentType, Ref, forwardRef } from "react"
+import { Component, ComponentClass, Ref, forwardRef } from "react"
 import Soundfont, { InstrumentName, Player } from "soundfont-player"
 import { MidiValue } from "../../domain/note"
 import { Optional } from "../../domain/types"
@@ -20,9 +20,10 @@ type ProviderState = {
   current: Optional<InstrumentName>
 }
 
-export function withInstrument<TProps extends InjectedProps = InjectedProps>( //generic constraint
-  WrappedComponent: ComponentType<TProps>
-) {
+export function withInstrumentForwardedRef<
+  TProps extends InjectedProps = InjectedProps
+>(WrappedComponent: ComponentClass<TProps>) {
+  //generic constraint
   type ComponentInstance = InstanceType<typeof WrappedComponent>
   type WithForwardedRef = ProviderProps & {
     forwardedRef: Ref<ComponentInstance>
@@ -30,7 +31,7 @@ export function withInstrument<TProps extends InjectedProps = InjectedProps>( //
   const displayName =
     WrappedComponent.displayName || WrappedComponent.name || "Component"
 
-  return class WithInstrument extends Component<ProviderProps, ProviderState> {
+  class WithInstrument extends Component<WithForwardedRef, ProviderState> {
     constructor(props: WithForwardedRef) {
       super(props)
       const { AudioContext } = this.props
@@ -47,7 +48,7 @@ export function withInstrument<TProps extends InjectedProps = InjectedProps>( //
 
     private activeNodes: AudioNodeRegistry = {}
 
-    public static displayNmae = `withInstrument(${displayName})`
+    public static displayName = `withInstrument(${displayName})`
 
     public state: ProviderState = {
       loading: false,
@@ -57,6 +58,15 @@ export function withInstrument<TProps extends InjectedProps = InjectedProps>( //
     public componentDidMount() {
       const { instrument } = this.props
       this.load(instrument)
+    }
+
+    public shouldComponentUpdate({ instrument }: ProviderProps) {
+      return this.state.current !== instrument
+    }
+
+    public componentDidUpdate({ instrument: prevInstrument }: ProviderProps) {
+      const { instrument } = this.props
+      if (instrument && instrument !== prevInstrument) this.load(instrument)
     }
 
     public load = async (instrument: InstrumentName) => {
