@@ -30,7 +30,7 @@
     height: var(--black-key-height);
     padding-top: var(--black-key-padding);
     background-color: #111;
-    color: white;
+    color: #39c85c;
     margin: 0 calc(-0.5 * calc(var(--black-key-width)));
     z-index: 2;
 }

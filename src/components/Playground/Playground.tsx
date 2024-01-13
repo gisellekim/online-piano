@@ -6,8 +6,8 @@ export const Playground = () => {
   return (
     <InstrumentContextProvider>
       <div className="playground">
-        <KeyboardWithInstrument />
         <InstrumentSelector />
+        <KeyboardWithInstrument />
       </div>
     </InstrumentContextProvider>
   )

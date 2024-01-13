@@ -5,7 +5,9 @@ export const Footer = () => {
 
   return (
     <footer className={styles.footer}>
-      <a href="yaji.sk">Giselle Kim</a>
+      <a target="_blank" href="https://yaji.sk">
+        Giselle Kim
+      </a>
       <br />
       {currentYear}
     </footer>
