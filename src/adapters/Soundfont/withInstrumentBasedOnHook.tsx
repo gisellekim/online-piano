@@ -1,6 +1,6 @@
+import { ComponentType, useEffect } from "react"
 import { InstrumentName } from "soundfont-player"
 import { MidiValue } from "../../domain/note"
-import { ComponentClass, useEffect } from "react"
 import { useSoundfont } from "./useSoundfont"
 
 type InjectedProps = {
@@ -15,7 +15,7 @@ type ProviderProps = {
 }
 
 export const withInstrumentBasedOnHook = (
-  WrappedComponent: ComponentClass<InjectedProps>
+  WrappedComponent: ComponentType<InjectedProps>
 ) => {
   return function WithInstrumentComponent(props: ProviderProps) {
     const { AudioContext, instrument } = props
