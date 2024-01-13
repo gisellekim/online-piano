@@ -14,7 +14,7 @@ type ProviderProps = {
   AudioContext: AudioContextType
 }
 
-export const withInstruemnt = (
+export const withInstrumentBasedOnHook = (
   WrappedComponent: ComponentClass<InjectedProps>
 ) => {
   return function WithInstrumentComponent(props: ProviderProps) {
